@@ -135,7 +135,16 @@ const buildPolicy = (serviceName, stage, region) => {
         Effect: 'Allow',
         Action: ['events:Put*', 'events:Remove*', 'events:Delete*'],
         Resource: [`arn:aws:events:*:*:rule/${serviceName}-${stage}-${region}`]
-      }
+      },
+      {
+        Effect: 'Allow',
+        Action:[
+           'ssm:GetParameters'
+        ],
+        Resource:[
+           `arn:aws:ssm:*:*:parameter/${serviceName}-*`
+        ]
+     }
     ]
   };
 };
