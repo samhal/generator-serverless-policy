@@ -100,11 +100,6 @@ const buildPolicy = (serviceName, stage, region) => {
       },
       {
         Effect: 'Allow',
-        Action: 'sqs:*',
-        Resource: [`arn:aws:sqs:*:*:${serviceName}-${stage}-${region}`]
-      },
-      {
-        Effect: 'Allow',
         Action: ['cloudwatch:GetMetricStatistics'],
         Resource: ['*']
       },
