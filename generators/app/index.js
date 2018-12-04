@@ -87,13 +87,6 @@ const buildPolicy = (serviceName, stage, region) => {
       },
       {
         Effect: 'Allow',
-        Action: 'kinesis:*',
-        Resource: [
-          `arn:aws:kinesis:*:*:stream/${serviceName}-${stage}-${region}`
-        ]
-      },
-      {
-        Effect: 'Allow',
         Action: [
           'iam:GetRole',
           'iam:CreateRole',
@@ -190,16 +183,6 @@ module.exports = class extends Generator {
         name: 'region',
         message: 'You can specify a specific region, if you like:',
         default: '*'
-      },
-      {
-        type: 'confirm',
-        name: 'dynamodb',
-        message: 'Does your service rely on DynamoDB?'
-      },
-      {
-        type: 'confirm',
-        name: 's3',
-        message: 'Is your service going to be using S3 buckets?'
       }
     ]).then(answers => {
       this.slsSettings = answers;
@@ -215,23 +198,7 @@ module.exports = class extends Generator {
     const project = this.slsSettings.name;
     const stage = this.slsSettings.stage;
     const region = this.slsSettings.region;
-
     const policy = buildPolicy(project, stage, region);
-    if (this.slsSettings.dynamodb) {
-      policy.Statement.push({
-        Effect: 'Allow',
-        Action: ['dynamodb:*'],
-        Resource: ['arn:aws:dynamodb:*:*:table/*']
-      });
-    }
-
-    if (this.slsSettings.s3) {
-      policy.Statement.push({
-        Effect: 'Allow',
-        Action: ['s3:CreateBucket'],
-        Resource: [`arn:aws:s3:::*`]
-      });
-    }
 
     const policyString = JSON.stringify(policy, null, 2);
     const fileName = `${project}-${escapeValFilename(stage)}-${escapeValFilename(region)}-policy.json`;
