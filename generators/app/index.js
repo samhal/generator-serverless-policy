@@ -42,7 +42,7 @@ const buildPolicy = (serviceName, stage, region) => {
           "s3:ListBucket",
           "s3:ListBucketVersions"
         ],
-        Resource: [`arn:aws:s3:::${serviceName}*serverlessdeploy*`]
+        Resource: [`arn:aws:s3:::${serviceName.substring(0,24)}*serverlessdeploy*`]
       },
       {
         Effect: 'Allow',
@@ -51,7 +51,7 @@ const buildPolicy = (serviceName, stage, region) => {
           "s3:GetObject",
           "s3:DeleteObject"
         ],
-        Resource: [`arn:aws:s3:::${serviceName}*serverlessdeploy*`]
+        Resource: [`arn:aws:s3:::${serviceName.substring(0,24)}*serverlessdeploy*`]
       },
       {
         Effect: 'Allow',
