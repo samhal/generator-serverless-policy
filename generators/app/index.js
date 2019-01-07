@@ -134,7 +134,8 @@ const buildPolicy = (serviceName, stage, region) => {
       {
         Effect: 'Allow',
         Action:[
-           'ssm:GetParameters'
+           'ssm:GetParameters',
+           'ssm:GetParameter'
         ],
         Resource:[
            `arn:aws:ssm:*:*:parameter/${serviceName}-*`
